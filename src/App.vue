@@ -3,7 +3,7 @@
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   
-  <AppCard v-for="o in 6" :key="o" />
+  <AppCard :appid="'1314212521'" />
   </div>
 </template>
 
