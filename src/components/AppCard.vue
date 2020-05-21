@@ -1,5 +1,12 @@
 <template>
-  <el-row class="card">
+  <div>
+    <van-tag>标签</van-tag>
+    <van-tag type="primary">标签</van-tag>
+    <van-tag type="success">标签</van-tag>
+    <van-tag type="danger">标签</van-tag>
+    <van-tag type="warning">标签</van-tag>
+  </div>
+  <!-- <el-row class="card">
     <el-row type="flex" align="middle" style="margin-bottom: 8px">
       <el-col :span="4">
         <el-image class="app-icon" :src="artworkUrl60" />
@@ -26,7 +33,6 @@
         effect="dark"
       >{{item.text}}</el-tag>
     </el-row>
-    <!-- 操作按钮 -->
     <el-row type="flex" justify="space-between">
       <el-button class="btn" plain round size="mini" type="danger">取消收藏</el-button>
       <el-button class="btn" plain round size="mini" type="primary">查看详情</el-button>
@@ -34,7 +40,7 @@
     </el-row>
 
     <el-divider />
-  </el-row>
+  </el-row>-->
 </template>
 
 
@@ -120,7 +126,7 @@ export default {
         name = name.split(" ")[0];
       }
       if (name.length > 12) {
-        name = name.substring(0, 12)
+        name = name.substring(0, 12);
       }
       return name;
     }
