@@ -1,23 +1,43 @@
 <template>
-  <div>
+  <van-swipe-cell>
+    <van-row class="content">
+      <van-row></van-row>
+      <van-row>
+        <van-tag>发发分分</van-tag>
+        <van-tag>发发分分</van-tag>
+        <van-tag>发发分分</van-tag>
+        <van-tag>发发分分</van-tag>
+        <van-tag>发发分分</van-tag>
+        <van-tag>发发分分</van-tag>
+        <van-tag>发发分分</van-tag>
+        <van-tag>发发分分</van-tag>
+      </van-row>
+    </van-row>
+
+    <template #right>
+      <van-button square type="danger" text="取消收藏" class="cancel"></van-button>
+    </template>
+  </van-swipe-cell>
+
+  <!-- <div>
     <van-tag>标签</van-tag>
     <van-tag type="primary">标签</van-tag>
     <van-tag type="success">标签</van-tag>
     <van-tag type="danger">标签</van-tag>
     <van-tag type="warning">标签</van-tag>
-  </div>
-  <!-- <el-row class="card">
-    <el-row type="flex" align="middle" style="margin-bottom: 8px">
-      <el-col :span="4">
-        <el-image class="app-icon" :src="artworkUrl60" />
-      </el-col>
-      <el-col :span="20">
+  </div>-->
+  <!-- <vant-row class="card">
+    <vant-row type="flex" align="middle" style="margin-bottom: 8px">
+      <vant-col :span="4">
+        <vant-image class="app-icon" :src="artworkUrl60" />
+      </vant-col>
+      <vant-col :span="20">
         <span class="app-name">{{editedName}}</span>
-      </el-col>
-    </el-row>
+      </vant-col>
+    </vant-row>
 
-    <el-row class="info" type="flex">
-      <el-tag
+    <vant-row class="info" type="flex">
+      <vant-tag
         size="small"
         effect="dark"
         type="info"
@@ -25,22 +45,22 @@
         :key="item"
         v-text="item"
       />
-      <el-tag
+      <vant-tag
         size="small"
         v-for="(item,index) of infoList"
         :key="index"
         :type="item.type"
         effect="dark"
-      >{{item.text}}</el-tag>
-    </el-row>
-    <el-row type="flex" justify="space-between">
-      <el-button class="btn" plain round size="mini" type="danger">取消收藏</el-button>
-      <el-button class="btn" plain round size="mini" type="primary">查看详情</el-button>
-      <el-button class="btn" plain round size="mini" type="primary">打开应用</el-button>
-    </el-row>
+      >{{item.text}}</vant-tag>
+    </vant-row>
+    <vant-row type="flex" justify="space-between">
+      <vant-button class="btn" plain round size="mini" type="danger">取消收藏</vant-button>
+      <vant-button class="btn" plain round size="mini" type="primary">查看详情</vant-button>
+      <vant-button class="btn" plain round size="mini" type="primary">打开应用</vant-button>
+    </vant-row>
 
-    <el-divider />
-  </el-row>-->
+    <vant-divider />
+  </vant-row>-->
 </template>
 
 
@@ -138,8 +158,24 @@ export default {
 
 
 <style scoped>
+.van-swipe-cell {
+  background: white;
+  margin-top: 22px;
+}
+
+.content {
+  padding: 8px 0;
+}
+
+.cancel {
+  height: 100%;
+}
+
+.van-tag {
+  margin: 2px;
+}
+
 .card {
-  padding: 0 8px;
   border-radius: 3px;
 }
 .app-icon {

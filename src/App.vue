@@ -318,7 +318,7 @@ export default {
 
 <style>
 body {
-  /* background: hsl(160, 50%, 90%); */
+  background: hsl(120, 90%, 50%);
 }
 
 #app {
