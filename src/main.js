@@ -1,12 +1,16 @@
 import Vue from 'vue';
 import App from './App.vue';
 
-import { Tag, Row, Col, Button, SwipeCell } from 'vant';
+
+
+import { Tag, Row, Col, Button, SwipeCell, Image, Dialog } from 'vant';
 Vue.use(Tag);
 Vue.use(Row);
 Vue.use(Col);
 Vue.use(Button);
 Vue.use(SwipeCell);
+Vue.use(Image);
+Vue.use(Dialog);
 
 
 Vue.config.productionTip = true

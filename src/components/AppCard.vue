@@ -1,66 +1,26 @@
 <template>
-  <van-swipe-cell>
+  <van-swipe-cell :name="appInfo.trackId" ref="swipe">
     <van-row class="content">
-      <van-row></van-row>
-      <van-row>
-        <van-tag>发发分分</van-tag>
-        <van-tag>发发分分</van-tag>
-        <van-tag>发发分分</van-tag>
-        <van-tag>发发分分</van-tag>
-        <van-tag>发发分分</van-tag>
-        <van-tag>发发分分</van-tag>
-        <van-tag>发发分分</van-tag>
-        <van-tag>发发分分</van-tag>
+      <!-- 图标、名称、按钮 -->
+      <van-row type="flex" align="center" gutter="8">
+        <van-col span="4">
+          <van-image :src="appInfo.artworkUrl512" class="icon" />
+        </van-col>
+        <van-col span="13" align="left">{{ editedName }}</van-col>
+        <van-col span="7" align="right">
+          <van-button round size="small" type="primary" text="查看"></van-button>
+        </van-col>
+      </van-row>
+
+      <van-row type="flex" justify="start" style="flex-wrap:wrap" ref="tagContainer">
+        <van-tag round plain v-for="(tagInfo, index) in tagInfoList" :key="index">{{ tagInfo.text }}</van-tag>
       </van-row>
     </van-row>
 
     <template #right>
-      <van-button square type="danger" text="取消收藏" class="cancel"></van-button>
+      <van-button square type="danger" text="取消收藏" class="cancel" @click="deleteApp"></van-button>
     </template>
   </van-swipe-cell>
-
-  <!-- <div>
-    <van-tag>标签</van-tag>
-    <van-tag type="primary">标签</van-tag>
-    <van-tag type="success">标签</van-tag>
-    <van-tag type="danger">标签</van-tag>
-    <van-tag type="warning">标签</van-tag>
-  </div>-->
-  <!-- <vant-row class="card">
-    <vant-row type="flex" align="middle" style="margin-bottom: 8px">
-      <vant-col :span="4">
-        <vant-image class="app-icon" :src="artworkUrl60" />
-      </vant-col>
-      <vant-col :span="20">
-        <span class="app-name">{{editedName}}</span>
-      </vant-col>
-    </vant-row>
-
-    <vant-row class="info" type="flex">
-      <vant-tag
-        size="small"
-        effect="dark"
-        type="info"
-        v-for="item of genres"
-        :key="item"
-        v-text="item"
-      />
-      <vant-tag
-        size="small"
-        v-for="(item,index) of infoList"
-        :key="index"
-        :type="item.type"
-        effect="dark"
-      >{{item.text}}</vant-tag>
-    </vant-row>
-    <vant-row type="flex" justify="space-between">
-      <vant-button class="btn" plain round size="mini" type="danger">取消收藏</vant-button>
-      <vant-button class="btn" plain round size="mini" type="primary">查看详情</vant-button>
-      <vant-button class="btn" plain round size="mini" type="primary">打开应用</vant-button>
-    </vant-row>
-
-    <vant-divider />
-  </vant-row>-->
 </template>
 
 
@@ -69,38 +29,47 @@ export default {
   name: "AppCard",
   props: ["appInfo"],
   data() {
-    return this.appInfo;
+    return {};
   },
+  watch: {},
   computed: {
-    infoList() {
+    tagInfoList() {
       let infos = [];
+      let appInfo = this.appInfo;
       // 评分
-      if (this.averageUserRating < 4) {
+      if (appInfo.averageUserRating < 4) {
         infos.push({
-          text: this.averageUserRating.toString().substring(0, 3) + "分",
+          text: appInfo.averageUserRating.toString().substring(0, 3) + "分",
           type: "danger"
         });
       } else {
         infos.push({
-          text: this.averageUserRating.toString().substring(0, 3) + "分",
+          text: appInfo.averageUserRating.toString().substring(0, 3) + "分",
           type: "success"
         });
       }
-      // 评分人数
-      if (this.userRatingCount >= 10000) {
+      // 分类
+      appInfo.genres.forEach(genre =>
         infos.push({
-          text: parseInt(this.userRatingCount / 10000).toString() + "w 人评分",
+          text: genre,
+          type: ""
+        })
+      );
+      // 评分人数
+      if (appInfo.userRatingCount >= 10000) {
+        infos.push({
+          text:
+            parseInt(appInfo.userRatingCount / 10000).toString() + "w 人评分",
           type: "info"
         });
       } else {
         infos.push({
-          text: this.userRatingCount.toString() + " 人评分",
+          text: appInfo.userRatingCount.toString() + " 人评分",
           type: "info"
         });
       }
-
       // 是否支持中文
-      if (this.languageCodesISO2A.includes("ZH")) {
+      if (appInfo.languageCodesISO2A.includes("ZH")) {
         infos.push({
           text: "支持中文",
           type: "success"
@@ -112,33 +81,42 @@ export default {
         });
       }
       // 文件大小
-      let mb = parseInt(parseInt(this.fileSizeBytes) / (1024 * 1024));
+      let mb = parseInt(parseInt(appInfo.fileSizeBytes) / (1024 * 1024));
       infos.push({
         text: mb.toString() + " MB",
         type: "info"
       });
       // 上次更新
       infos.push({
-        text: this.currentVersionReleaseDate.split("T")[0] + " 更新",
+        text: appInfo.currentVersionReleaseDate.split("T")[0] + " 更新",
         type: "info"
       });
       // 价钱
-      if (this.formattedPrice == "免费") {
+      if (appInfo.formattedPrice == "免费") {
         infos.push({
-          text: this.formattedPrice,
+          text: appInfo.formattedPrice,
           type: "success"
         });
       } else {
         infos.push({
-          text: this.formattedPrice,
+          text: appInfo.formattedPrice,
           type: "danger"
         });
       }
 
+      infos.push({
+        text: "最低支持 IOS" + appInfo.minimumOsVersion,
+        type: ""
+      });
+
+      infos.push({
+        text: appInfo.contentAdvisoryRating,
+        type: ""
+      });
       return infos;
     },
     editedName() {
-      let name = this.trackName.split("-")[0];
+      let name = this.appInfo.trackName.split("-")[0];
       if (name.length > 12) {
         name = name.split("&")[0];
       }
@@ -152,19 +130,65 @@ export default {
     }
   },
 
-  created() {}
+  create() {
+    // console.log(1, this);
+  },
+  created() {},
+
+  mounted() {
+    // this.$el.style.height = this.$el.offsetHeight + 'px';
+    // let that = this;
+    // setTimeout(()=>{
+    // console.log(this.$refs.swipe.$el.clientHeight);
+    // },1000)
+    // this.$nextTick(() => {
+    //   that.$nextTick(() => {
+    //     console.log(that.$refs.swipe.$el.clientHeight);
+    //   });
+    // });
+    this.$refs.tagContainer.$updated = () => {
+      console.log(1111111111111);
+    };
+    console.log(this.$refs.tagContainer);
+    
+  },
+  updated() {
+    console.log(123123);
+  },
+
+  methods: {
+    deleteApp() {
+      let _ = this;
+      this.$dialog.confirm({
+        title: "提示",
+        message: "取消收藏" + this.editedName + "?",
+        beforeClose(action, done) {
+          if (action !== "confirm") {
+            done();
+            return;
+          }
+          _.$el.style.transform = "scale(0)";
+          // _.$el.style.display = "none";
+          _.$emit("event-delete-app", done, _.trackId);
+        }
+      });
+    }
+  }
 };
 </script>
 
 
 <style scoped>
 .van-swipe-cell {
-  background: white;
-  margin-top: 22px;
+  /* background: linear-gradient(135deg, hsl(80, 80%, 50%), hsl(180, 80%, 50%)); */
+  box-shadow: 0 0 18px #aaa;
+  margin: 30px 0 0;
+  overflow: hidden;
+  transition: all 500ms;
 }
 
 .content {
-  padding: 8px 0;
+  padding: 12px;
 }
 
 .cancel {
@@ -178,8 +202,10 @@ export default {
 .card {
   border-radius: 3px;
 }
-.app-icon {
+.icon {
   border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 1px 1px 8px #bbbbbbaa;
 }
 .app-name {
   font-size: 16px;
