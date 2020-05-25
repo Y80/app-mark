@@ -4,9 +4,9 @@
     <app-card v-for="(item, index) of appInfoList" :key="index" :app-info="item" @event-delete-app="deleteApp">
     </app-card>
 
-    <van-row type="flex" justify="center" class="footer">
-      <p>@2020 </p>
-      <p>由 古十三 提供技术支持</p>
+    <van-row type="flex" justify="center" align="center" class="footer">
+      <van-row>@2020 </van-row>
+      <van-row>由 古十三 提供技术支持</van-row>
     </van-row>
   </div>
 </template>
@@ -36,22 +36,27 @@
     created() {
       this.getAppInfo()
     },
+    mounted() {
+      console.log('加载完毕！');
+    },
+
     methods: {
       async getAppInfo() {
         let url = "http://localhost:878/API/getAppInfo.php?id=" + this.appIdList;
         let rsp = await axios.get(url)
-        // console.log(rsp);
-        // return;
-        this.appInfoList.splice(0, this.appInfoList.length ? this.appInfoList.length : 0, ...rsp.data.data.results);
-        // console.log(this.appInfoList);
-
+        rsp.data.data.results.forEach(item => {
+          let imgUrl = item.artworkUrl512
+          let img = new Image()
+          img.src = imgUrl
+          img.onload = () => {
+            this.appInfoList.push(item)
+          }
+        })
       },
       // 从数组中删除 App ==> 复制内容至剪贴板
       deleteApp(done, id) {
         console.log(arguments);
-        console.log('delete:', id);
         this.appIdStr = this.appIdList.filter(item => item != id).join(',');
-
         let input = document.createElement("input");
         input.value = this.appIdStr;
         document.body.appendChild(input);
@@ -62,7 +67,6 @@
           alert("复制内容至剪贴板发生错误");
         }
         document.body.removeChild(input);
-
         done()
       }
     }

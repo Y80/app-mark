@@ -1,0 +1,32 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, width=device-width">
+  <style>
+    body {
+      font-family: monospace;
+      white-space: pre;
+    }
+  </style>
+</head>
+
+<body>
+  <button onclick="myCopy(this.innerText)">复制1</button>
+  <script type="text/javascript">
+    function myCopy(content) {
+      var oInput = document.createElement('input');
+      oInput.value = content;
+      document.body.appendChild(oInput);
+      oInput.select(); //选择对象
+      if (document.execCommand('copy')) {
+        console.log('文本已成功复制');
+      } else {
+        console.log('文本复制失败');
+      }
+      document.body.removeChild(oInput);
+    }
+  </script>
+</body>
+
+</html>

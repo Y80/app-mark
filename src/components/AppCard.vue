@@ -1,24 +1,24 @@
 <template>
-  <van-swipe-cell :name="appInfo.trackId" ref="swipe">
+  <van-swipe-cell :name="appInfo.trackId">
     <van-row class="content">
       <!-- 图标、名称、按钮 -->
-      <van-row type="flex" align="center" gutter="8">
+      <van-row type="flex" align="center" gutter="12">
         <van-col span="4">
           <van-image :src="appInfo.artworkUrl512" class="icon" />
         </van-col>
         <van-col span="13" align="left">{{ editedName }}</van-col>
         <van-col span="7" align="right">
-          <van-button round size="small" type="primary" text="查看"></van-button>
+          <van-button round size="middle" type="primary" text="查看" />
         </van-col>
       </van-row>
-
-      <van-row type="flex" justify="start" style="flex-wrap:wrap" ref="tagContainer">
+      <!-- 标签组 -->
+      <van-row type="flex" justify="start" style="flex-wrap:wrap; padding: 12px 0 0">
         <van-tag round plain v-for="(tagInfo, index) in tagInfoList" :key="index">{{ tagInfo.text }}</van-tag>
       </van-row>
     </van-row>
-
+    <!-- 取消收藏 -->
     <template #right>
-      <van-button square type="danger" text="取消收藏" class="cancel" @click="deleteApp"></van-button>
+      <van-button square type="danger" text="取消收藏" class="cancel" :url="appInfo.trackViewUrl" @click="deleteApp" />
     </template>
   </van-swipe-cell>
 </template>
@@ -31,7 +31,6 @@ export default {
   data() {
     return {};
   },
-  watch: {},
   computed: {
     tagInfoList() {
       let infos = [];
@@ -130,30 +129,13 @@ export default {
     }
   },
 
-  create() {
-    // console.log(1, this);
-  },
   created() {},
-
   mounted() {
-    // this.$el.style.height = this.$el.offsetHeight + 'px';
-    // let that = this;
-    // setTimeout(()=>{
-    // console.log(this.$refs.swipe.$el.clientHeight);
-    // },1000)
-    // this.$nextTick(() => {
-    //   that.$nextTick(() => {
-    //     console.log(that.$refs.swipe.$el.clientHeight);
-    //   });
-    // });
-    this.$refs.tagContainer.$updated = () => {
-      console.log(1111111111111);
-    };
-    console.log(this.$refs.tagContainer);
-    
-  },
-  updated() {
-    console.log(123123);
+    setTimeout(() => {
+      this.$el.style.transform = "translateY(0)";
+      this.$el.style.opacity = 1;
+      this.$el.style.height = this.$el.offsetHeight + "px";
+    }, 100);
   },
 
   methods: {
@@ -168,8 +150,10 @@ export default {
             return;
           }
           _.$el.style.transform = "scale(0)";
-          // _.$el.style.display = "none";
-          _.$emit("event-delete-app", done, _.trackId);
+          _.$el.style.height = 0;
+          _.$el.style.margin = 0;
+          done();
+          // _.$emit("event-delete-app", done, _.trackId);
         }
       });
     }
@@ -181,9 +165,12 @@ export default {
 <style scoped>
 .van-swipe-cell {
   /* background: linear-gradient(135deg, hsl(80, 80%, 50%), hsl(180, 80%, 50%)); */
-  box-shadow: 0 0 18px #aaa;
+  box-shadow: 0 0 18px rgb(230, 230, 230);
   margin: 30px 0 0;
   overflow: hidden;
+  /* height: 0; */
+  opacity: 0;
+  transform: translateY(30px);
   transition: all 500ms;
 }
 
@@ -203,6 +190,8 @@ export default {
   border-radius: 3px;
 }
 .icon {
+  height: 48px;
+  width: 48px;
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 1px 1px 8px #bbbbbbaa;
@@ -213,17 +202,5 @@ export default {
   margin-left: 15px;
   float: left;
   color: #555;
-}
-.info {
-  margin-left: -3px;
-  flex-wrap: wrap;
-}
-.info span {
-  margin: 3px;
-}
-
-.btn {
-  /* box-shadow: 0 0 4px #666; */
-  margin-top: 8px;
 }
 </style>
