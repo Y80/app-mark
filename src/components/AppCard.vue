@@ -8,7 +8,7 @@
         </van-col>
         <van-col span="13" align="left">{{ editedName }}</van-col>
         <van-col span="7" align="right">
-          <van-button round size="middle" type="primary" text="查看" />
+          <van-button round size="small" type="primary" text="查看" :url="appInfo.trackViewUrl" />
         </van-col>
       </van-row>
       <!-- 标签组 -->
@@ -18,7 +18,7 @@
     </van-row>
     <!-- 取消收藏 -->
     <template #right>
-      <van-button square type="danger" text="取消收藏" class="cancel" :url="appInfo.trackViewUrl" @click="deleteApp" />
+      <van-button square type="danger" text="取消收藏" class="btn-delete" @click="deleteApp" />
     </template>
   </van-swipe-cell>
 </template>
@@ -165,20 +165,19 @@ export default {
 <style scoped>
 .van-swipe-cell {
   /* background: linear-gradient(135deg, hsl(80, 80%, 50%), hsl(180, 80%, 50%)); */
-  box-shadow: 0 0 18px rgb(230, 230, 230);
-  margin: 30px 0 0;
+  /* box-shadow: 0 0 18px rgb(230, 230, 230); */
+  margin: 60px 0 0;
   overflow: hidden;
-  /* height: 0; */
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(50px);
   transition: all 500ms;
 }
 
 .content {
-  padding: 12px;
+  padding: 0 28px;
 }
 
-.cancel {
+.btn-delete {
   height: 100%;
 }
 
@@ -186,15 +185,13 @@ export default {
   margin: 2px;
 }
 
-.card {
-  border-radius: 3px;
-}
+
 .icon {
   height: 48px;
   width: 48px;
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 1px 1px 8px #bbbbbbaa;
+  /* box-shadow: 1px 1px 8px #bbbbbbaa; */
 }
 .app-name {
   font-size: 16px;

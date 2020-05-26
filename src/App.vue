@@ -6,7 +6,7 @@
 
     <van-row type="flex" justify="center" align="center" class="footer">
       <van-row>@2020 </van-row>
-      <van-row>由 古十三 提供技术支持</van-row>
+      <!-- <van-row>由 古十三 提供技术支持</van-row> -->
     </van-row>
   </div>
 </template>
@@ -42,16 +42,22 @@
 
     methods: {
       async getAppInfo() {
-        let url = "http://localhost:878/API/getAppInfo.php?id=" + this.appIdList;
-        let rsp = await axios.get(url)
-        rsp.data.data.results.forEach(item => {
-          let imgUrl = item.artworkUrl512
-          let img = new Image()
-          img.src = imgUrl
-          img.onload = () => {
-            this.appInfoList.push(item)
-          }
-        })
+        let url = "http://192.168.0.106:878/API/getAppInfo.php?id=" + this.appIdList;
+        axios.get(url)
+          .then(rsp => {
+            rsp.data.data.results.forEach(item => {
+              let imgUrl = item.artworkUrl512
+              let img = new Image()
+              img.src = imgUrl
+              img.onload = () => {
+                this.appInfoList.push(item)
+              }
+            })
+          })
+          .catch(e => {
+            alert('获取信息失败' + e.message())
+          })
+
       },
       // 从数组中删除 App ==> 复制内容至剪贴板
       deleteApp(done, id) {
@@ -75,7 +81,7 @@
 
 <style>
   body {
-    /* background: hsl(120, 90%, 50%); */
+    background: linear-gradient(90deg, hsl(200, 100%,95%), hsl(200, 100%,97%));
   }
 
   #app {
