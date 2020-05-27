@@ -1,19 +1,37 @@
 <template>
-  <van-swipe-cell :name="appInfo.trackId">
+  <van-swipe-cell
+    :name="appInfo.trackId"
+    :style="{
+      background: 'linear-gradient(135deg, hsl(' + hue[0] + ', 90%, 90%), hsl(' + hue[1] + ', 90%, 80%)',
+      boxShadow: '8px 8px 18px hsl(' + hue[1] + ', 90%, 90%)'
+    }"
+  >
     <van-row class="content">
       <!-- 图标、名称、按钮 -->
       <van-row type="flex" align="center" gutter="12">
         <van-col span="4">
           <van-image :src="appInfo.artworkUrl512" class="icon" />
         </van-col>
-        <van-col span="13" align="left">{{ editedName }}</van-col>
+        <van-col span="13" align="left" class="app-name">{{ editedName }}</van-col>
         <van-col span="7" align="right">
-          <van-button round size="small" type="primary" text="查看" :url="appInfo.trackViewUrl" />
+          <van-button
+            text="查看"
+            :color="`hsl(${hue[1]}, 100%, 40%)`"
+            round
+            size="small"
+            type="primary"
+            :url="appInfo.trackViewUrl"
+          />
         </van-col>
       </van-row>
       <!-- 标签组 -->
       <van-row type="flex" justify="start" style="flex-wrap:wrap; padding: 12px 0 0">
-        <van-tag round plain v-for="(tagInfo, index) in tagInfoList" :key="index">{{ tagInfo.text }}</van-tag>
+        <van-tag
+          round
+          color="white"
+          v-for="(tagInfo, index) in tagInfoList"
+          :key="index"
+        >{{ tagInfo.text }}</van-tag>
       </van-row>
     </van-row>
     <!-- 取消收藏 -->
@@ -29,7 +47,9 @@ export default {
   name: "AppCard",
   props: ["appInfo"],
   data() {
-    return {};
+    return {
+      hue: this.getRandomHue()
+    };
   },
   computed: {
     tagInfoList() {
@@ -140,22 +160,24 @@ export default {
 
   methods: {
     deleteApp() {
-      let _ = this;
-      this.$dialog.confirm({
-        title: "提示",
-        message: "取消收藏" + this.editedName + "?",
-        beforeClose(action, done) {
-          if (action !== "confirm") {
-            done();
-            return;
-          }
-          _.$el.style.transform = "scale(0)";
-          _.$el.style.height = 0;
-          _.$el.style.margin = 0;
-          done();
-          // _.$emit("event-delete-app", done, _.trackId);
-        }
-      });
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: "取消收藏" + this.editedName + "?"
+        })
+        .then(() => {
+          this.$el.style.transform = "scale(0)";
+          this.$el.style.height = 0;
+          this.$el.style.margin = 0;
+          this.$emit("event-delete-app", this.trackId);
+        })
+        .catch();
+    },
+    // @reutrn Array [a, b]
+    getRandomHue() {
+      let hue1 = parseInt(Math.random() * 360);
+      let hue2 = (hue1 + 30) % 360;
+      return [hue1, hue2];
     }
   }
 };
@@ -164,9 +186,11 @@ export default {
 
 <style scoped>
 .van-swipe-cell {
-  /* background: linear-gradient(135deg, hsl(80, 80%, 50%), hsl(180, 80%, 50%)); */
-  /* box-shadow: 0 0 18px rgb(230, 230, 230); */
-  margin: 60px 0 0;
+  background: linear-gradient(135deg, hsl(210, 90%, 50%), hsl(210, 90%, 80%));
+  box-shadow: 3px 3px 18px hsl(210, 90%, 90%);
+  width: 90%;
+  border-radius: 10px;
+  margin: 60px auto 0;
   overflow: hidden;
   opacity: 0;
   transform: translateY(50px);
@@ -174,7 +198,7 @@ export default {
 }
 
 .content {
-  padding: 0 28px;
+  padding: 18px 28px;
 }
 
 .btn-delete {
@@ -183,21 +207,20 @@ export default {
 
 .van-tag {
   margin: 2px;
+  color: #777;
+  font-weight: 100;
 }
-
 
 .icon {
   height: 48px;
   width: 48px;
   border-radius: 14px;
   overflow: hidden;
-  /* box-shadow: 1px 1px 8px #bbbbbbaa; */
 }
 .app-name {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bolder;
   margin-left: 15px;
-  float: left;
   color: #555;
 }
 </style>
