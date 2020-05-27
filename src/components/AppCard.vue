@@ -149,7 +149,6 @@ export default {
     }
   },
 
-  created() {},
   mounted() {
     setTimeout(() => {
       this.$el.style.transform = "translateY(0)";
