@@ -168,7 +168,7 @@ export default {
           this.$el.style.transform = "scale(0)";
           this.$el.style.height = 0;
           this.$el.style.margin = 0;
-          this.$emit("event-delete-app", this.trackId);
+          this.$emit("event-delete-app", this.appInfo.trackId);
         })
         .catch();
     },
@@ -206,7 +206,7 @@ export default {
 
 .van-tag {
   margin: 2px;
-  color: #777;
+  color: #111;
   font-weight: 100;
 }
 
