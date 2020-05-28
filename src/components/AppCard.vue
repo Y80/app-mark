@@ -165,10 +165,15 @@ export default {
           message: "取消收藏" + this.editedName + "?"
         })
         .then(() => {
-          this.$el.style.transform = "scale(0)";
-          this.$el.style.height = 0;
-          this.$el.style.margin = 0;
-          this.$emit("event-delete-app", this.appInfo.trackId);
+          setTimeout(() => {
+            this.$el.style.transform = "scale(0)";
+            this.$el.style.height = 0;
+            this.$el.style.marginTop = 0;
+            this.$emit("event-delete-app", this.appInfo.trackId);
+          }, 500);
+          setTimeout(() => {
+            this.$el.style.display = 'none';
+          }, 1000);
         })
         .catch();
     },
@@ -187,9 +192,9 @@ export default {
 .van-swipe-cell {
   background: linear-gradient(135deg, hsl(210, 90%, 50%), hsl(210, 90%, 80%));
   box-shadow: 3px 3px 18px hsl(210, 90%, 90%);
-  width: 90%;
+  width: 100%;
   border-radius: 10px;
-  margin: 60px auto 0;
+  margin-top: 60px;
   overflow: hidden;
   opacity: 0;
   transform: translateY(50px);
@@ -221,5 +226,16 @@ export default {
   font-weight: bolder;
   margin-left: 15px;
   color: #555;
+}
+
+@media screen and (min-width: 768px) {
+  .van-swipe-cell {
+    /* width: 300px; */
+
+    /* margin: 20px; */
+  }
+  .van-swipe-cell >>> .van-swipe-cell__wrapper {
+    height: 100%;
+  }
 }
 </style>
