@@ -9,24 +9,19 @@
     </div>
 
     <!-- 提示用户保存改动 -->
-    <van-row type="flex" justify="start" align="center" class="save-panel" ref="save">
+    <van-row role="save-info-bar" type="flex" justify="start" align="center" ref="save">
       <span style="color: #00000088; font-size: 13px">已删除 {{ deleteCount }} 个 App，点击左上角 [完成] 退出页面并保存数据</span>
     </van-row>
 
-    <img src="./assets/20-User-Interaction.png" style="max-width: 350px;" />
-    <h1 class="title">App 收藏夹</h1>
+    <img role="website-cover" src="./assets/20-User-Interaction.png">
+    <h1 role="website-title">App 收藏夹</h1>
 
     <div class="app-container">
       <app-card v-for="(item, index) of appInfoList" :key="index" :app-info="item" @event-delete-app="deleteApp">
       </app-card>
     </div>
 
-    <van-divider style="margin: 50px 0 30px">已加载全部</van-divider>
-
-    <!-- <van-row type="flex" justify="center" align="center" class="footer"> -->
-    <!-- <van-row>@ 2020</van-row> -->
-    <!-- <van-row>由 古十三 提供技术支持</van-row> -->
-    <!-- </van-row> -->
+    <van-divider style="margin: 20px">已加载全部内容</van-divider>
   </div>
 </template>
 
@@ -140,7 +135,7 @@
     margin-top: 60px;
   }
 
-  .save-panel {
+  [role="save-info-bar"] {
     width: calc(100vw - 40px);
     padding: 0 20px;
     height: 40px;
@@ -154,15 +149,29 @@
     backdrop-filter: blur(10px);
   }
 
+  [role="website-cover"] {
+    width: 100%;
+  }
+
   .app-container {
     display: flex;
     flex-direction: column;
-    padding: 0 5vw;
     width: 90vw;
+    margin: 50px auto 0;
+    padding: 0;
   }
 
+  .app-container>* {
+    /* width: 100%; */
+    margin-bottom: 50px;
+    border-radius: 10px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 500ms;
+  }
 
-  .title {
+  [role="website-title"] {
     color: transparent;
     -webkit-background-clip: text;
     width: 180px;
@@ -173,13 +182,6 @@
         hsl(46, 98%, 70%));
   }
 
-  .footer {
-    margin-top: 30px;
-    padding: 8px 0;
-    color: #aaa;
-    font-size: 14px;
-    border-top: 1px solid #ddd;
-  }
 
   .spinner-container {
     position: fixed;
@@ -250,40 +252,25 @@
   }
 
   @media screen and (min-width: 768px) {
+    [role="website-cover"] {
+      width: 60%;
+    }
     .app-container {
-      width: auto;
-      flex-direction: row;
-      /* align-items: center; */
-      flex-wrap: wrap;
+      flex-flow: row wrap;
       justify-content: flex-start;
-      /* margin: -20px; */
+      width: 680px;
     }
 
-    .app-container > * {
-      max-width: 320px;
-      flex: 1 1 280px;
-      margin-left: 30px;
-      margin-right: 30px;
+    .app-container>* {
+      width: 310px;
+      margin: 15px
     }
 
   }
 
   @media screen and (min-width: 1024px) {
     .app-container {
-      width: auto;
-      flex-direction: row;
-      /* align-items: center; */
-      flex-wrap: wrap;
-      justify-content: flex-start;
-      /* margin: -20px; */
+      width: 1020px;
     }
-
-    .app-container > * {
-      max-width: 300px;
-      flex: 1 1 33.3%;
-      margin-left: 30px;
-      margin-right: 30px;
-    }
-
   }
 </style>

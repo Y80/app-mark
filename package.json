@@ -43,6 +43,6 @@
     "not dead"
   ],
   "vue": {
-    "publicPath": "/dist/"
+    "publicPath": "/appMark/"
   }
 }
